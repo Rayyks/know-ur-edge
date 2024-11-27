@@ -5,6 +5,13 @@ const { generateToken } = require("../../utils/tokenUtils");
 exports.registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
+  // Define the list of forbidden words
+  const forbiddenWords = ["nigger", "fuck", "fucking", "shit", "nigga"];
+
+  // Username validation regex: must contain only letters, numbers, and underscores,
+  // and at least one underscore is required
+  const usernameRegex = /^(?=.*_)[A-Za-z0-9_]+$/;
+
   try {
     // Check if the email is already registered
     const userExists = await User.findOne({ email });
@@ -24,6 +31,28 @@ exports.registerUser = async (req, res) => {
         error: "BadRequest",
         details:
           "Please provide all required fields: username, email, and password.",
+      });
+    }
+
+    // Check if username contains any forbidden words (case-insensitive)
+    const containsForbiddenWord = forbiddenWords.some((word) =>
+      username.toLowerCase().includes(word)
+    );
+    if (containsForbiddenWord) {
+      return res.status(400).json({
+        message: "Invalid username",
+        error: "BadRequest",
+        details: "Username contains forbidden words.",
+      });
+    }
+
+    // Validate username format
+    if (!usernameRegex.test(username)) {
+      return res.status(400).json({
+        message: "Invalid username",
+        error: "BadRequest",
+        details:
+          "Username must only contain letters, numbers, and underscores, and must include at least one underscore.",
       });
     }
 

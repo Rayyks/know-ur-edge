@@ -7,6 +7,7 @@ const {
   getFeed,
 } = require("../controllers/POSTCONTROLLER/index");
 const protect = require("../middlewares/auth");
+const checkBlacklist = require("../middlewares/checkBlacklist");
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ const router = express.Router();
 // Create post (with media upload)
 router.post(
   "/",
-  protect, // Ensure the user is authenticated
+  protect,
+  checkBlacklist,
   uploadMiddleware().array("media", 5), // "posts" context, allow up to 5 files (images/videos)
   createPost
 );
@@ -23,15 +25,16 @@ router.post(
 // Update post (with media upload)
 router.put(
   "/:id",
-  protect, // Ensure the user is authenticated
+  checkBlacklist,
+  protect,
   uploadMiddleware().array("media", 5), // "posts" context, allow up to 5 files (images/videos)
   updatePost
 );
 
 // Delete post
-router.delete("/:id", protect, deletePost);
+router.delete("/:id", protect, checkBlacklist, deletePost);
 
 // Get feed (retrieve posts)
-router.get("/feed", protect, getFeed);
+router.get("/feed", protect, checkBlacklist, getFeed);
 
 module.exports = router;

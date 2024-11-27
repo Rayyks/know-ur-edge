@@ -36,4 +36,20 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add a text index to optimize search
+postSchema.index(
+  {
+    title: "text",
+    content: "text",
+    category: "text",
+  },
+  {
+    weights: {
+      title: 5, // Highest priority
+      content: 3, // Medium priority
+      category: 1, // Lowest priority
+    },
+  }
+);
+
 module.exports = mongoose.model("Post", postSchema);
