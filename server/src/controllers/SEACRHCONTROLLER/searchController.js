@@ -13,7 +13,7 @@ exports.searchEverything = async (req, res) => {
     const perPage = parseInt(limit);
     const skip = (parseInt(page) - 1) * perPage;
 
-    // Search logic
+    // Search logic for posts
     const postResults = await Post.find({
       $or: [
         { title: { $regex: query, $options: "i" } },
@@ -22,9 +22,14 @@ exports.searchEverything = async (req, res) => {
       ],
     })
       .populate("author", "username profilePic")
+      .populate({
+        path: "likes", // Populate likes to include user details
+        select: "username profilePic",
+      })
       .limit(perPage)
       .skip(skip);
 
+    // Search logic for users
     const userResults = await User.find({
       $or: [
         { username: { $regex: query, $options: "i" } },
@@ -35,10 +40,14 @@ exports.searchEverything = async (req, res) => {
       .limit(perPage)
       .skip(skip);
 
+    // Response
     res.json({
       message: "Search results retrieved successfully.",
       results: {
-        posts: postResults,
+        posts: postResults.map((post) => ({
+          ...post.toObject(),
+          likesCount: post.likes.length, // Include like count for convenience
+        })),
         users: userResults,
       },
       pagination: {
@@ -47,6 +56,7 @@ exports.searchEverything = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Error in searchEverything:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

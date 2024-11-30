@@ -1,3 +1,5 @@
+import { LibraryBig, Search } from "lucide-react";
+
 export const navigation = [
   {
     href: "#",
@@ -134,4 +136,21 @@ export const nestedNav = [
   { name: "Chekouts", href: "", icon: "" },
   { name: "Payments", href: "", icon: "" },
   { name: "Get paid", href: "", icon: "" },
+];
+
+export const links = [
+  {
+    label: "Home",
+    href: "/",
+    icon: (
+      <LibraryBig className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+    ),
+  },
+  {
+    label: "Search",
+    href: "/search",
+    icon: (
+      <Search className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+    ),
+  },
 ];

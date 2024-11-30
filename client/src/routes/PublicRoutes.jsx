@@ -1,15 +1,28 @@
-import { useEffect } from "react";
+import { Loader } from "@/components/common/Loader";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PublicRoutes = ({ children }) => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/");
-  }, [isAuthenticated, navigate]);
+    if (!loading) {
+      if (isAuthenticated) {
+        navigate("/");
+      } else {
+        setIsCheckingAuth(false);
+      }
+    }
+  }, [isAuthenticated, loading, navigate]);
 
-  return <div>PublicRoutes</div>;
+  if (loading || isCheckingAuth) {
+    return <Loader />;
+  }
+
+  return children;
 };
 
 export default PublicRoutes;

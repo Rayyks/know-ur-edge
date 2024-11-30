@@ -12,7 +12,7 @@ const PrivateRoutes = ({ children }) => {
     }
   }, [loading, isAuthenticated, navigate]);
 
-  return loading && children;
+  return !loading && children;
 };
 
 export default PrivateRoutes;

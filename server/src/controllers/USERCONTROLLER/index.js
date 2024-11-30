@@ -7,6 +7,11 @@ const { followUser } = require("./followController");
 const { unfollowUser } = require("./unfollowController");
 const { logoutUser } = require("./logoutController");
 
+// ACCOUNT DELETION
+const { requestAccountDeletion } = require("./requestAccountDeletion");
+const { cancelAccountDeletion } = require("./cancelAccountDeletion");
+const { finalizeAccountDeletions } = require("./finalizeAccountDeletion");
+
 module.exports = {
   registerUser,
   loginUser,
@@ -16,4 +21,7 @@ module.exports = {
   followUser,
   unfollowUser,
   logoutUser,
+  requestAccountDeletion,
+  cancelAccountDeletion,
+  finalizeAccountDeletions,
 };

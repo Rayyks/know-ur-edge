@@ -1,5 +1,8 @@
 const {
-  getFeed,
+  getFollowingFeed,
+} = require("../../controllers/POSTCONTROLLER/getFeedController");
+const {
+  getRandomFeed,
 } = require("../../controllers/POSTCONTROLLER/getFeedController");
 const {
   createPost,
@@ -10,10 +13,14 @@ const {
 const {
   updatePost,
 } = require("../../controllers/POSTCONTROLLER/updatePostController");
+const { likePost, unlikePost } = require("./likeController");
 
 module.exports = {
-  getFeed,
+  getFollowingFeed,
+  getRandomFeed,
   createPost,
   deletePost,
   updatePost,
+  likePost,
+  unlikePost,
 };

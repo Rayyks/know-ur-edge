@@ -23,10 +23,12 @@ const postSchema = new mongoose.Schema(
       type: [String], // Array of file paths (images/videos)
       default: [],
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User", // Reference to User model
+      },
+    ],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     createdAt: {
       type: Date,

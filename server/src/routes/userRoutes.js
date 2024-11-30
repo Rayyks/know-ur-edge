@@ -1,7 +1,10 @@
 const express = require("express");
 const {
   getUserProfileByUsername,
-} = require("../controllers/USERCONTROLLER/index"); // Import the controller function
+  requestAccountDeletion,
+  cancelAccountDeletion,
+} = require("../controllers/USERCONTROLLER/index"); // Import the controller function\
+
 const protect = require("../middlewares/auth");
 const checkBlacklist = require("../middlewares/checkBlacklist");
 
@@ -13,6 +16,22 @@ router.get(
   protect,
   checkBlacklist,
   getUserProfileByUsername
+);
+
+// Protected route to request account deletion
+router.post(
+  "/account-deletion",
+  protect,
+  checkBlacklist,
+  requestAccountDeletion
+);
+
+// Protected route to cancel account deletion
+router.delete(
+  "/account-deletion",
+  protect,
+  checkBlacklist,
+  cancelAccountDeletion
 );
 
 module.exports = router;

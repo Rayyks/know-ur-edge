@@ -1,31 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { Search, X, Sparkles } from "lucide-react";
 import SearchResultPage from "./SearchResultPage";
+import useSearch from "@/hooks/useSearch";
 
 const SearchPage = () => {
-  const [search, setSearch] = useState("");
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("q") || "";
-  const navigate = useNavigate();
-  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
-
-  useEffect(() => {
-    if (query) setSearch(query);
-  }, [query]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (search.trim()) {
-      navigate(`/search?q=${encodeURIComponent(search.trim())}`);
-    }
-  };
-
-  const clearSearch = () => {
-    setSearch("");
-    navigate("/search");
-  };
-
+  const { search, setSearch, query, handleSubmit, clearSearch } = useSearch();
   return (
     <div className="min-h-full bg-gray-50 dark:bg-neutral-800 rounded-xl">
       <div className="container mx-auto px-4 py-8">

@@ -17,7 +17,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected routes with token blacklist check
-router.post("/logout", checkBlacklist, logoutUser); // Apply blacklist check here
+router.post("/logout", protect, checkBlacklist, logoutUser); // Apply blacklist check here
 
 router.get("/profile", protect, checkBlacklist, getProfile); // Protect and ensure token is valid
 

@@ -1,65 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Search,
   User,
   FileText,
   Image as ImageIcon,
   ArrowLeft,
-  Filter,
 } from "lucide-react";
 import { UserCardUi } from "@/components/ui/user-card-ui";
 import { PostCardUi } from "@/components/ui/post-card-ui";
+import useSearch from "@/hooks/useSearch";
 
 const SearchResultPage = ({ query, onBack }) => {
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("all");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!query) return;
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/search?query=${encodeURIComponent(query)}`,
-          {
-            headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2YyZjIyMDllMzNiNWE3NmYzZmFmMCIsImlhdCI6MTczMjI2OTM0MywiZXhwIjoxNzMyODc0MTQzfQ.zKvoMkqW5ZBP9TgLLBHpF5ir7brGi-Hu7pNAjF-Qslc`,
-            },
-          }
-        );
-
-        setResults(response.data.results);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-        setError("Failed to fetch search results. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [query]);
-
-  const filterResults = () => {
-    if (!results) return { users: [], posts: [] };
-
-    switch (activeTab) {
-      case "users":
-        return { users: results.users, posts: [] };
-      case "posts":
-        return { users: [], posts: results.posts };
-      default:
-        return results;
-    }
-  };
-
-  const { users, posts } = filterResults();
+  const { results, loading, error, activeTab, setActiveTab, users, posts } =
+    useSearch(query);
 
   return (
     <div className="h-full w-full bg-gray-100 dark:bg-neutral-900 rounded-xl p-4 overflow-visible">

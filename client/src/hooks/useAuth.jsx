@@ -10,10 +10,11 @@ import {
 import { resetError } from "@/redux/slices/authSlice";
 
 const useAuth = () => {
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated, user } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -21,13 +22,16 @@ const useAuth = () => {
   } = useForm();
 
   React.useEffect(() => {
-    dispatch(resetError());
-  }, [location.pathname, dispatch]);
+    setTimeout(() => {
+      dispatch(resetError());
+    }, 9000);
+  }, []);
 
   const handleRegisterSubmit = async (data) => {
     try {
       const resultAction = await dispatch(registerUser(data)).unwrap();
       if (resultAction && resultAction.success) navigate("/");
+      console.log("resultAction", resultAction);
     } catch (error) {
       console.error("ERROR - useAuth.jsx - onSubmit:", error);
     }
@@ -37,6 +41,7 @@ const useAuth = () => {
     try {
       const resultAction = await dispatch(loginUser(data)).unwrap();
       if (resultAction && resultAction.success) navigate("/");
+      console.log("resultAction", resultAction);
     } catch (error) {
       console.error("ERROR - useAuth.jsx - onSubmit:", error);
     }
@@ -60,6 +65,8 @@ const useAuth = () => {
     handleLogout,
     error,
     loading,
+    isAuthenticated,
+    user,
   };
 };
 

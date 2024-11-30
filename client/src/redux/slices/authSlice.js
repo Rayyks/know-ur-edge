@@ -31,7 +31,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.isAuthenticated = true;
         state.token = action.payload.token;
         Cookies.set("_user_accessToken_", action.payload.token, {

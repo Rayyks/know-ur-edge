@@ -8,8 +8,10 @@ const UserLayouts = lazy(() => import("@/layouts/UserLayouts"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const PostsPage = lazy(() => import("@/pages/PostsPage"));
+const FollowingPostsPage = lazy(() => import("@/pages/FollowingPage"));
 const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 const OtherUserProfile = lazy(() => import("@/pages/OtherUserProfile"));
+import ProfileEditPage from "@/pages/EditProfilePage";
 
 // SEARCH PAGE
 const SearchPage = lazy(() => import("@/pages/SearchPage"));
@@ -20,19 +22,57 @@ import PolicyPage from "@/pages/PolicyPage";
 
 // UTILS
 import PrivateRoutes from "@/routes/PrivateRoutes";
+import PublicRoutes from "./PublicRoutes";
+import GuestWrapper from "@/lib/GuestWrapper";
 
 const AppRoutes = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/Register" element={<RegisterPage />} />
+        {/* PUBLIC ROUTE */}
+        <Route
+          path="/login"
+          element={
+            <PublicRoutes>
+              <LoginPage />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/Register"
+          element={
+            <PublicRoutes>
+              <RegisterPage />
+            </PublicRoutes>
+          }
+        />
+        <Route path="/terms-and-conditions" element={<PolicyPage />} />
+        <Route path="*" element={<NotFound />} />
+
+        {/* ACCESSIBLE ROUTES FOR BOTH GUEST AND AUTH */}
         <Route path="/" element={<UserLayouts />}>
           <Route index element={<PostsPage />} />
+          <Route path="following" element={<FollowingPostsPage />} />
           <Route path="search" element={<SearchPage />} />
-          <Route path="p/:id" element={<>Post Details</>} />
-          <Route path="p/:id/edit" element={<>Edit Post</>} />
+          <Route
+            path="p/:id"
+            element={
+              <GuestWrapper restrictedActions={false}>
+                <>Post Details</>
+              </GuestWrapper>
+            }
+          />
+          <Route
+            path="profile/:username"
+            element={
+              <GuestWrapper>
+                <OtherUserProfile />
+              </GuestWrapper>
+            }
+          />
+
           {/* FOR AUTHENTICATED USER PROFILE */}
+          <Route path="p/:id/edit" element={<>Edit Post</>} />
           <Route
             path="profile"
             element={
@@ -45,16 +85,11 @@ const AppRoutes = () => {
             path="profile/edit"
             element={
               <PrivateRoutes>
-                <>Edit Profile</>
+                <ProfileEditPage />
               </PrivateRoutes>
             }
           />
-          {/* FOR OTHER USER PROFILE */}
-          <Route path="profile/:username" element={<OtherUserProfile />} />
         </Route>
-
-        <Route path="/terms-and-conditions" element={<PolicyPage />} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );
