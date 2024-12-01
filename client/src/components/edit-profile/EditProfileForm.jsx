@@ -9,46 +9,15 @@ import { useEffect } from "react";
 import { Camera } from "lucide-react";
 
 export const EditProfileForm = () => {
-  const {
-    authProfile,
-    handleSubmit,
-    handleUpdateProfile,
-    register,
-    errors,
-    isUpdating,
-    updateError,
-  } = useProfile();
-
-  const [profile, setProfile] = useState({
-    bio: "",
-    gender: "",
-    profilePic: "",
-    skills: [{ name: "", level: "" }],
-    experience: [{ title: "", field: "", years: "", description: "" }],
-    projects: [{ title: "", description: "" }],
-  });
-
-  useEffect(() => {
-    if (authProfile) {
-      setProfile({
-        username: authProfile.username || "",
-        email: authProfile.email || "",
-        bio: authProfile.bio || "",
-        gender: authProfile.gender || "",
-        profilePic: authProfile.profilePic || "",
-        skills: authProfile.skills || [{ name: "", level: "" }],
-        experience: authProfile.experience || [
-          { title: "", field: "", years: "", description: "" },
-        ],
-        projects: authProfile.projects || [{ title: "", description: "" }],
-      });
-    }
-  }, [authProfile]);
-
-  const onSubmit = async (data) => {
-    console.log(data);
-    await handleUpdateProfile(data);
-  };
+  if (isUpdating) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white rounded-lg p-6 shadow-lg">
+          <p className="text-center">Updating profile...</p>;
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -78,16 +47,31 @@ export const EditProfileForm = () => {
       </div>
 
       {/* Personal Details */}
-      <PersonalDetails register={register} profile={profile} />
+      <PersonalDetails register={register} errors={errors} profile={profile} />
 
       {/* Skills Section */}
-      <SkillSection register={register} profile={profile} />
+      <SkillSection
+        register={register}
+        errors={errors}
+        profile={profile}
+        setProfile={setProfile}
+      />
 
       {/* Experience Section */}
-      <ExperienceSection register={register} profile={profile} />
+      <ExperienceSection
+        register={register}
+        errors={errors}
+        profile={profile}
+        setProfile={setProfile}
+      />
 
       {/* Projects Section */}
-      <ProjectSection register={register} profile={profile} />
+      <ProjectSection
+        register={register}
+        errors={errors}
+        profile={profile}
+        setProfile={setProfile}
+      />
 
       <div className="flex justify-center">
         <button
@@ -101,7 +85,7 @@ export const EditProfileForm = () => {
       {/* FOR ERROR  */}
       {updateError && (
         <div className="text-red-500 text-center mt-4">
-          <p>Error updating profile: {updateError.message}</p>
+          <p>Error updating profile: {updateError.data.message}</p>
         </div>
       )}
     </form>

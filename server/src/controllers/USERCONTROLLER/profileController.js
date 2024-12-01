@@ -3,13 +3,17 @@ const User = require("../../models/User");
 exports.getProfile = async (req, res) => {
   try {
     // Find the user and exclude the password
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+      .select("-password")
+      .populate("skills") // Populate the skills field with full skill details
+      .populate("experience") // Populate the experience field with full experience details
+      .populate("projects"); // Populate the projects field with full project details
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Send the full profile
+    // Send the full profile with populated details
     res.json({
       id: user._id,
       username: user.username,
@@ -17,9 +21,9 @@ exports.getProfile = async (req, res) => {
       bio: user.bio,
       gender: user.gender,
       profilePic: user.profilePic,
-      skills: user.skills, // Include skills
-      experience: user.experience, // Include experience
-      projects: user.projects, // Include projects
+      skills: user.skills, // Full skill details
+      experience: user.experience, // Full experience details
+      projects: user.projects, // Full project details
       following: user.following, // Include following list
       followers: user.followers, // Include followers list
       createdAt: user.createdAt, // Include account creation date

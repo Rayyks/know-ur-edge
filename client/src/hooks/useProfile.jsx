@@ -1,13 +1,10 @@
 import {
   useGetAuthProfileQuery,
   useGetSelectedUserProfileQuery,
-  useUpdateProfileMutation,
   useRequestAccountDeletionMutation,
   useCancelAccountDeletionMutation,
 } from "@/redux/slices/userApiSlice";
 import { useParams } from "react-router-dom";
-
-import { useForm } from "react-hook-form";
 
 const useProfile = () => {
   const { username } = useParams();
@@ -27,25 +24,6 @@ const useProfile = () => {
   } = useGetSelectedUserProfileQuery(username, {
     skip: !username,
   });
-
-  const [updateProfile, { isLoading: isUpdating, error: updateError }] =
-    useUpdateProfileMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const handleUpdateProfile = async (profile) => {
-    try {
-      await updateProfile(profile).unwrap();
-
-      refetchAuthProfile();
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };
 
   const [
     requestAccountDeletion,
@@ -69,14 +47,6 @@ const useProfile = () => {
     selectedUserProfileError,
     isSelectedUserProfileLoading,
     refetchSelectedUserProfile,
-
-    // FOR UPDATE PROFILE
-    register,
-    handleSubmit,
-    errors,
-    handleUpdateProfile,
-    isUpdating,
-    updateError,
 
     // FOR ACCOUNT DELETION
     requestAccountDeletion,

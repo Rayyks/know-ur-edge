@@ -75,7 +75,6 @@ const usePost = () => {
     isfollowingFeedLoading,
     followingfeedError,
     refetchFollowingFeed,
-    refetchFollowingFeed,
 
     // CREATE POST
     isCreating,
