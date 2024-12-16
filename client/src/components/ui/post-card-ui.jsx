@@ -33,3 +33,5 @@ export const PostCardUi = (post) => {
     </div>
   );
 };
+
+export default PostCardUi;

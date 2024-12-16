@@ -21,3 +21,5 @@ export const UserCardUi = (user) => {
     </Link>
   );
 };
+
+export default UserCardUi;

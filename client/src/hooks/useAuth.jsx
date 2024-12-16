@@ -13,6 +13,7 @@ const useAuth = () => {
   const { loading, error, isAuthenticated, user } = useSelector(
     (state) => state.auth
   );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {

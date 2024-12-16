@@ -4,7 +4,7 @@ import { Code, Terminal } from "lucide-react";
 import usePost from "@/hooks/usePost";
 import { PostHeader } from "@/components/post/Post-Header";
 import { PostBody } from "@/components/post/Post-Body";
-import { PostAction } from "@/components/post/Post-Action";
+import { PostListAction } from "@/components/post";
 
 const FollowingPostsPage = () => {
   const {

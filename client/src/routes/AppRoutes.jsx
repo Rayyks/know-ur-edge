@@ -9,9 +9,12 @@ const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const PostsPage = lazy(() => import("@/pages/PostsPage"));
 const FollowingPostsPage = lazy(() => import("@/pages/FollowingPage"));
+const SinglePostPage = lazy(() => import("@/pages/SinglePostPage"));
 const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 const OtherUserProfile = lazy(() => import("@/pages/OtherUserProfile"));
-import ProfileEditPage from "@/pages/EditProfilePage";
+const ProfileEditPage = lazy(() => import("@/pages/EditProfilePage"));
+const CreatePost = lazy(() => import("@/components/post/Create-Post"));
+const EditPost = lazy(() => import("@/pages/EditPost"));
 
 // SEARCH PAGE
 const SearchPage = lazy(() => import("@/pages/SearchPage"));
@@ -55,10 +58,10 @@ const AppRoutes = () => {
           <Route path="following" element={<FollowingPostsPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route
-            path="p/:id"
+            path="p/:postId"
             element={
               <GuestWrapper restrictedActions={false}>
-                <>Post Details</>
+                <SinglePostPage />
               </GuestWrapper>
             }
           />
@@ -72,7 +75,8 @@ const AppRoutes = () => {
           />
 
           {/* FOR AUTHENTICATED USER PROFILE */}
-          <Route path="p/:id/edit" element={<>Edit Post</>} />
+          <Route path="post/create" element={<CreatePost />} />
+          <Route path="post/edit/:postId" element={<EditPost />} />
           <Route
             path="profile"
             element={

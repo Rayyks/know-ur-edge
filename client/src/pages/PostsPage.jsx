@@ -1,10 +1,8 @@
-import React from "react";
-
 import { Code, Terminal } from "lucide-react";
 import usePost from "@/hooks/usePost";
-import { PostHeader } from "@/components/post/Post-Header";
-import { PostBody } from "@/components/post/Post-Body";
-import { PostAction } from "@/components/post/Post-Action";
+import { PostHeader, PostBody, PostListAction } from "@/components/post";
+import CreatePost from "@/components/post/Create-Post";
+import { PostDropdown } from "@/components/post/Post-Dropdown";
 
 const PostsPage = () => {
   const {
@@ -47,12 +45,10 @@ const PostsPage = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
             <Terminal className="w-8 h-8 mr-3 text-blue-600" />
-            Healty Feed
+            Random Knowledge Feed
           </h1>
           <div className="flex space-x-2">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors">
-              Create Post
-            </button>
+            <CreatePost />
           </div>
         </div>
 
@@ -63,6 +59,9 @@ const PostsPage = () => {
               className="bg-white dark:bg-neutral-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-neutral-600 overflow-hidden"
             >
               <div className="p-6">
+                {/* DROPDOWN */}
+                <PostDropdown post={post} />
+
                 {/* Header */}
                 <PostHeader post={post} />
 
@@ -73,7 +72,7 @@ const PostsPage = () => {
                 />
 
                 {/* Actions */}
-                <PostAction post={post} />
+                <PostListAction post={post} />
               </div>
             </div>
           ))}

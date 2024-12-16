@@ -8,3 +8,5 @@ export const LoadingSpinner = ({ message }) => {
     </div>
   );
 };
+
+export default LoadingSpinner;

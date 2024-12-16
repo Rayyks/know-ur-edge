@@ -8,13 +8,15 @@ import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar-ui";
 import Footer from "@/components/common/Footer";
 import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/useAuth";
+import useProfile from "@/hooks/useProfile";
 import { links } from "@/content/content";
 import { Logo, LogoIcon } from "@/components/ui/mini-profile-ui";
-import { User } from "lucide-react";
 
 export function SidebarContent() {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, user, handleLogout } = useAuth();
+  const { isAuthenticated, handleLogout } = useAuth();
+  const { authProfile } = useProfile();
+
   return (
     <div
       className={cn(
@@ -26,9 +28,15 @@ export function SidebarContent() {
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? (
-              <Logo isAuthenticated={isAuthenticated} user={user} />
+              <Logo
+                isAuthenticated={isAuthenticated}
+                authProfile={authProfile}
+              />
             ) : (
-              <LogoIcon isAuthenticated={isAuthenticated} user={User} />
+              <LogoIcon
+                isAuthenticated={isAuthenticated}
+                authProfile={authProfile}
+              />
             )}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (

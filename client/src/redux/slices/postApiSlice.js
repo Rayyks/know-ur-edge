@@ -11,6 +11,9 @@ export const postApiSlice = createApi({
     getRandomFeed: builder.query({
       query: () => ({ url: "/posts/random-feed", method: "GET" }),
     }),
+    getSinglePost: builder.query({
+      query: (postId) => ({ url: `/posts/${postId}`, method: "GET" }),
+    }),
     likePost: builder.mutation({
       query: (postId) => ({ url: `/likes/${postId}/like`, method: "POST" }),
     }),
@@ -18,7 +21,17 @@ export const postApiSlice = createApi({
       query: (postId) => ({ url: `/likes/${postId}/unlike`, method: "POST" }),
     }),
     createPost: builder.mutation({
-      query: (post) => ({ url: "/posts", method: "POST", data: post }),
+      query: (formData) => ({ url: "/posts", method: "POST", data: formData }),
+    }),
+    deletePost: builder.mutation({
+      query: (postId) => ({ url: `/posts/${postId}`, method: "DELETE" }),
+    }),
+    editPost: builder.mutation({
+      query: ({ postId, post }) => ({
+        url: `/posts/${postId}`,
+        method: "PUT",
+        data: post,
+      }),
     }),
   }),
 });
@@ -26,7 +39,10 @@ export const postApiSlice = createApi({
 export const {
   useGetFollowingFeedQuery,
   useGetRandomFeedQuery,
+  useGetSinglePostQuery,
   useLikePostMutation,
   useUnLikePostMutation,
   useCreatePostMutation,
+  useEditPostMutation,
+  useDeletePostMutation,
 } = postApiSlice;

@@ -10,3 +10,5 @@ export const ErrorMessage = ({ message, details }) => {
     </div>
   );
 };
+
+export default ErrorMessage;

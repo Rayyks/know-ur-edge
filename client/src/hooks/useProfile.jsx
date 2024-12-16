@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 
 const useProfile = () => {
   const { username } = useParams();
-
   const {
     data: authProfile,
     error: authProfileError,

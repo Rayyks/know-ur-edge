@@ -6,6 +6,7 @@ const {
   deletePost,
   getFollowingFeed,
   getRandomFeed,
+  getSinglePost,
 } = require("../controllers/POSTCONTROLLER/index");
 const protect = require("../middlewares/auth");
 const checkBlacklist = require("../middlewares/checkBlacklist");
@@ -39,6 +40,9 @@ router.delete("/:id", protect, checkBlacklist, deletePost);
 router.get("/following-feed", protect, checkBlacklist, getFollowingFeed);
 
 // Get random posts
-router.get("/random-feed", protect, checkBlacklist, getRandomFeed);
+router.get("/random-feed", getRandomFeed);
+
+// Get a single post by ID
+router.get("/:postId", getSinglePost);
 
 module.exports = router;

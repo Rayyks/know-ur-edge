@@ -3,9 +3,6 @@ import { ProjectSection } from "@/components/edit-profile/Project-Section";
 import { ExperienceSection } from "@/components/edit-profile/Experience-Section";
 import { SkillSection } from "@/components/edit-profile/Skill-Section";
 import { PersonalDetails } from "@/components/edit-profile/Personal-Details";
-import { useState } from "react";
-import useProfile from "@/hooks/useProfile";
-import { useEffect } from "react";
 import { Camera } from "lucide-react";
 
 export const EditProfileForm = () => {
