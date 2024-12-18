@@ -47,7 +47,7 @@ const SinglePostPage = () => {
     );
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-black min-h-screen rounded-xl">
+    <div className="max-w-6xl mx-auto bg-white dark:bg-black min-h-screen rounded-xl">
       {/* Post Header */}
       <div className="sticky top-0 rounded-t-xl bg-white/90 dark:bg-black/90 backdrop-blur-md z-10 border-b border-gray-200 dark:border-neutral-800">
         <div className="flex items-center p-4">
@@ -154,7 +154,12 @@ const SinglePostPage = () => {
           </div>
         ) : (
           post.comments.map((comment, index) => (
-            <SinglePostActions key={comment._id || index} comment={comment} />
+            <SinglePostActions
+              key={comment._id || index}
+              comment={comment}
+              getSafeImageUrl={getSafeImageUrl}
+              post={post}
+            />
           ))
         )}
       </div>

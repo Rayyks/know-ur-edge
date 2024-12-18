@@ -12,6 +12,6 @@ const router = express.Router();
 router.post("/:postId/comment", protect, checkBlacklist, createComment);
 
 // Delete a comment
-router.delete("/comment/:id", protect, checkBlacklist, deleteComment);
+router.delete("/comment/:commentId", protect, checkBlacklist, deleteComment);
 
 module.exports = router;

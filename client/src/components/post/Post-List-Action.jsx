@@ -15,7 +15,7 @@ export const PostListAction = ({ post }) => {
           transition-colors"
         >
           <MessageCircle className="w-5 h-5" />
-          <span className="text-sm">0</span>
+          <span className="text-sm">{post?.comments.length || 0}</span>
         </Link>
         <button
           className="flex items-center space-x-2 
@@ -24,7 +24,7 @@ export const PostListAction = ({ post }) => {
           transition-colors"
         >
           <Heart className="w-5 h-5" />
-          <span className="text-sm">0</span>
+          <span className="text-sm">{post?.likes.length || 0}</span>
         </button>
       </div>
     </div>

@@ -11,7 +11,6 @@ exports.createComment = async (req, res) => {
     }
 
     const post = await Post.findById(postId);
-
     if (!post) {
       return res.status(404).json({ message: "Post not found." });
     }
@@ -24,9 +23,20 @@ exports.createComment = async (req, res) => {
       parentComment: parentCommentId || null, // Set parentComment if it's a reply
     });
 
-    // Add the comment to the post
-    post.comments.push(comment._id);
-    await post.save();
+    // If it's a reply, add it to the parent's replies array
+    if (parentCommentId) {
+      const parentComment = await Comment.findById(parentCommentId);
+      if (!parentComment) {
+        return res.status(404).json({ message: "Parent comment not found." });
+      }
+
+      parentComment.replies.push(comment._id);
+      await parentComment.save();
+    } else {
+      // Otherwise, add it to the post's comments array
+      post.comments.push(comment._id);
+      await post.save();
+    }
 
     res.status(201).json({
       message: "Comment created successfully.",

@@ -33,6 +33,26 @@ export const postApiSlice = createApi({
         data: post,
       }),
     }),
+    commentPost: builder.mutation({
+      query: ({ postId, comment }) => ({
+        url: `/comments/${postId}/comment`,
+        method: "POST",
+        data: comment,
+      }),
+    }),
+    replyComment: builder.mutation({
+      query: ({ postId, parentCommentId, comment }) => ({
+        url: `/comments/${postId}/comment`,
+        method: "POST",
+        data: { content: comment.content, parentCommentId },
+      }),
+    }),
+    deleteComment: builder.mutation({
+      query: (commentId) => ({
+        url: `/comments/comment/${commentId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -45,4 +65,7 @@ export const {
   useCreatePostMutation,
   useEditPostMutation,
   useDeletePostMutation,
+  useCommentPostMutation,
+  useReplyCommentMutation,
+  useDeleteCommentMutation,
 } = postApiSlice;

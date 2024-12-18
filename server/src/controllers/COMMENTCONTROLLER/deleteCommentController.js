@@ -3,9 +3,9 @@ const Post = require("../../models/Post");
 
 exports.deleteComment = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { commentId } = req.params;
 
-    const comment = await Comment.findById(id);
+    const comment = await Comment.findById(commentId);
 
     if (!comment) {
       return res.status(404).json({ message: "Comment not found." });

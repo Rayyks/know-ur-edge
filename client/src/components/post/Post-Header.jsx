@@ -14,7 +14,7 @@ export const PostHeader = ({ post }) => {
         </span>
         <div className="text-gray-500 dark:text-gray-400 text-sm flex items-center">
           <Code className="w-4 h-4 mr-2 text-blue-500" />
-          Tech Enthusiast
+          {post?.category}
         </div>
       </div>
     </Link>

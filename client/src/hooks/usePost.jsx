@@ -146,6 +146,7 @@ const usePost = () => {
 
   return {
     limitContentByCharacters,
+    postId,
 
     // GET RANDOM POSTS
     randomFeed,
